@@ -9,6 +9,7 @@ Question:
 >Paste the output of this command into the homework submission form.
 
 Answer:
+
 ```shell
 var.project
   Your GCP Project ID

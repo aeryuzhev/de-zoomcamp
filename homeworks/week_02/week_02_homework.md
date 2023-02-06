@@ -4,43 +4,63 @@ The goal of this homework is to familiarise users with workflow orchestration an
 
 ## Question 1. Load January 2020 data
 
-Question:
+**Question:**
 
 >Using the `etl_web_to_gcs.py` flow that loads taxi data into GCS as a guide, create a flow that loads the green taxi CSV dataset for January 2020 into GCS and run it. Look at the logs to find out how many rows the dataset has.
 >
 >How many rows does that dataset have?
 
-Code:
+**Solution:**
 
+```bash
+prefect deployment build etl_web_to_gcs.py:etl_parent_flow \
+  -n "etl_taxi_green_q_1" -a 
+prefect deployment run etl-parent-flow/etl_taxi_green_q_1 \
+  --params '{"year": 2020, "months": [1], "color": "green"}'
+```
+
+The last part of the output from Prefect Agent with the number of processed rows:
+
+```bash
+21:54:53.032 | INFO    | Flow run 'mustard-fulmar' - Number of processed rows: 447770
+21:54:53.104 | INFO    | Flow run 'mustard-fulmar' - Finished in state Completed('All states completed.')
+21:54:54.328 | INFO    | prefect.infrastructure.process - Process 'mustard-fulmar' exited cleanly.
+```
+
+**Files:**
 [etl_web_to_gcs.py](https://github.com/aeryuzhev/de-zoomcamp/tree/master/homeworks/week_02/etl_web_to_gcs.py)
 
-Answer:
+**Answer:**
 
 `447,770`
 
 ## Question 2. Scheduling with Cron
 
-Question:
+**Question:**
 
 >Cron is a common scheduling specification for workflows.
 >
 >Using the flow in `etl_web_to_gcs.py`, create a deployment to run on the first of every month at 5am UTC. What’s the cron schedule for that?
 
-Code:
-
-[etl_web_to_gcs.py](https://github.com/aeryuzhev/de-zoomcamp/tree/master/homeworks/week_02/etl_web_to_gcs.py)
+**Solution:**
 
 ```bash
-prefect deployment build etl_web_to_gcs.py:etl_web_to_gcs -n "etl_taxi_green_gcs" --cron "0 5 1 * *" -a
+prefect deployment build etl_web_to_gcs.py:etl_parent_flow \
+  -n "etl_taxi_green_q_2" --cron "0 5 1 * *" -a
 ```
 
-Answer:
+![alt text](https://github.com/aeryuzhev/de-zoomcamp/tree/master/homeworks/week_02/images/cron.png)
+
+**Files:**
+[etl_web_to_gcs.py](https://github.com/aeryuzhev/de-zoomcamp/tree/master/homeworks/week_02/etl_web_to_gcs.py)
+
+**Answer:**
 
 `0 5 1 * *`
 
 ## Question 3. Loading data to BigQuery
 
-Question:
+**Question:**
 
 >Using `etl_gcs_to_bq.py` as a starting point, modify the script for extracting data from GCS and loading it into BigQuery. This new script should not fill or remove rows with missing values. (The script is really just doing the E and L parts of ETL).
 >
@@ -52,23 +72,35 @@ Question:
 >
 >Create a deployment for this flow to run in a local subprocess with local flow code storage (the defaults).
 >
->Make sure you have the parquet data files for Yellow taxi data for Feb. >2019 and March 2019 loaded in GCS. Run your deployment to append this data to your BiqQuery table. How many rows did your flow code process?
+>Make sure you have the parquet data files for Yellow taxi data for Feb. 2019 and March 2019 loaded in GCS. Run your deployment to append this data to your BiqQuery table. How many rows did your flow code process?
 
-Code:
-
-[etl_gcs_to_bq.py](https://github.com/aeryuzhev/de-zoomcamp/tree/master/homeworks/week_02/etl_gcs_to_bq.py)
+**Solution:**
 
 ```bash
-prefect deployment build etl_gcs_to_bq.py:etl_gcs_to_bq -n "etl_taxi_yellow_bq" -a
+prefect deployment build etl_gcs_to_bq.py:etl_parent_flow \
+  -n "etl_taxi_green_q_3" -a
+prefect deployment run etl-parent-flow/etl_taxi_green_q_1 \
+  --params '{"year": 2019, "months": [2, 3], "color": "yelllow"}'
 ```
 
-Answer:
+The last part of the output from Prefect Agent with the number of processed rows:
+
+```bash
+23:16:23.239 | INFO    | Flow run 'bizarre-dove' - Number of processed rows: 14851920
+23:16:23.285 | INFO    | Flow run 'bizarre-dove' - Finished in state Completed('All states completed.')
+23:16:24.485 | INFO    | prefect.infrastructure.process - Process 'bizarre-dove' exited cleanly.
+```
+
+**Files:**
+[etl_gcs_to_bq.py](https://github.com/aeryuzhev/de-zoomcamp/tree/master/homeworks/week_02/etl_gcs_to_bq.py)
+
+**Answer:**
 
 `14,851,920`
 
 ## Question 4. Github Storage Block
 
-Question:
+**Question:**
 
 >Using the `web_to_gcs` script from the videos as a guide, you want to store your flow code in a GitHub repository for collaboration with your team. Prefect can look in the GitHub repo to find your flow code and read it. Create a GitHub storage block from the UI or in Python code and use that in your Deployment instead of storing your flow code locally or baking your flow code into a Docker image.
 >
@@ -78,13 +110,13 @@ Question:
 >
 >How many rows were processed by the script?
 
-Answer:
+**Answer:**
 
 `88,605`
 
 ## Question 5. Email or Slack notifications
 
-Question:
+**Question:**
 
 >Q5. It’s often helpful to be notified when something with your dataflow doesn’t work as planned. Choose one of the options below for creating email or slack notifications.
 >
@@ -106,16 +138,30 @@ Question:
 >
 >How many rows were processed by the script?
 
-Answer:
+**Solution:**
+
+```bash
+# Login on app.prefect.cloud and create an automation on app.prefect.cloud
+prefect cloud login
+
+prefect deployment build etl_web_to_gcs.py:etl_parent_flow -n "etl_taxi_green_q_5" -a
+prefect deployment run etl-parent-flow/etl_taxi_green_q_5 --params '{"year": 2019, "months": [4], "color": "green"}'
+```
+
+**Answer:**
 
 `514,392`
 
 ## Question 6. Secrets
 
-Question:
+**Question:**
 
 >Prefect Secret blocks provide secure, encrypted storage in the database and obfuscation in the UI. Create a secret block in the UI that stores a fake 10-digit password to connect to a third-party service. Once you’ve created your block in the UI, how many characters are shown as asterisks (*) on the next page of the UI?
 
-Answer:
+**Solution:**
+
+![alt text](https://github.com/aeryuzhev/de-zoomcamp/tree/master/homeworks/week_02/images/secret_block.png)
+
+**Answer:**
 
 `8`

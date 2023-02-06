@@ -9,7 +9,7 @@ Modify the files as necessary to create a GCP Bucket and Big Query Dataset.
 
 ## Question 1. Creating Resources
 
-Question:
+**Question:**
 
 >After updating the main.tf and variable.tf files run:
 >
@@ -17,7 +17,7 @@ Question:
 >
 >Paste the output of this command into the homework submission form.
 
-Answer:
+**Answer:**
 
 ```shell
 var.project

@@ -4,20 +4,23 @@ import pandas as pd
 from prefect import flow, task
 from prefect_gcp.cloud_storage import GcsBucket
 
-COLOR = "green"
-YEAR = 2020
-MONTH = 11
 GSC_BLOCK_NAME = "zoom-gsc"
 TAXI_URL = "https://github.com/DataTalksClub/nyc-tlc-data/releases/download"
 
 
-@task(log_prints=True, retries=3)
-def fetch(dataset_url: str) -> pd.DataFrame:
+@task(retries=3)
+def fetch(dataset_url: str, color: str) -> pd.DataFrame:
     """Read taxi data from web into pandas DataFrame."""
+    pickup_dt_column = "tpep_pickup_datetime"
+    dropoff_dt_column = "tpep_dropoff_datetime"    
+    
+    if color == "green":
+        pickup_dt_column = "lpep_pickup_datetime"
+        dropoff_dt_column = "lpep_dropoff_datetime"     
 
     dtypes = {
-        "lpep_pickup_datetime": "string",
-        "lpep_dropoff_datetime": "string",
+        pickup_dt_column: "string",
+        dropoff_dt_column: "string",
         "passenger_count": "float64",
         "trip_distance": "float64",
         "RatecodeID": "float64",
@@ -38,19 +41,19 @@ def fetch(dataset_url: str) -> pd.DataFrame:
     df = pd.read_csv(
         dataset_url,
         dtype=dtypes,
-        parse_dates=["lpep_pickup_datetime", "lpep_dropoff_datetime"],
+        parse_dates=[pickup_dt_column, dropoff_dt_column],
     )
-    
+
     return df
 
 
 @task()
-def write_local(df: pd.DataFrame, dataset_file: str) -> Path:
+def write_local(df: pd.DataFrame, dataset_file: str, color: str) -> Path:
     """Write DataFrame out locally as parquet file."""
-    if not Path(f"data/{COLOR}").exists():
-        Path(f"data/{COLOR}").mkdir(parents=True)
+    if not Path(f"data/{color}").exists():
+        Path(f"data/{color}").mkdir(parents=True)
 
-    path = Path(f"data/{COLOR}/{dataset_file}.parquet")
+    path = Path(f"data/{color}/{dataset_file}.parquet")
     df.to_parquet(path, compression="gzip")
 
     return path
@@ -64,17 +67,34 @@ def write_gcs(path: Path) -> None:
 
 
 @flow()
-def etl_web_to_gcs() -> None:
+def etl_web_to_gcs(year: int, month: int, color: str) -> None:
     """The main ETL function."""
-    dataset_file = f"{COLOR}_tripdata_{YEAR}-{MONTH:02}"
-    dataset_url = f"{TAXI_URL}/{COLOR}/{dataset_file}.csv.gz"
+    dataset_file = f"{color}_tripdata_{year}-{month:02}"
+    dataset_url = f"{TAXI_URL}/{color}/{dataset_file}.csv.gz"
 
-    df = fetch(dataset_url)
-    path = write_local(df, dataset_file)
+    df = fetch(dataset_url, color)
+    path = write_local(df, dataset_file, color)
     write_gcs(path)
-    
-    print(f"Number of processed rows: {len(df)}")
+
+    return len(df)
+
+
+@flow(log_prints=True)
+def etl_parent_flow(
+    year: int = 2021, months: list[int] = [1, 2], color: str = "yellow"
+) -> None:
+    """Parent function for main ETL function."""
+    proc_rows_count = 0
+
+    for month in months:
+        proc_rows_count += etl_web_to_gcs(year, month, color)
+
+    print(f"Number of processed rows: {proc_rows_count}")
 
 
 if __name__ == "__main__":
-    etl_web_to_gcs()
+    year = 2020
+    months = [1]
+    color = "yellow"
+
+    etl_parent_flow(year, months, color)

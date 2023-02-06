@@ -5,7 +5,7 @@ and practice with Docker and SQL
 
 ## Question 1. Knowing docker tags
 
-Question:
+**Question:**
 
 >Run the command to get information on Docker
 >
@@ -15,25 +15,25 @@ Question:
 >
 >Which tag has the following text? - *Write the image ID to the file*
 
-Answer:
+**Answer:**
 
 `--iidfile string`
 
 ## Question 2. Understanding docker first run
 
-Question:
+**Question:**
 
 >Run docker with the python:3.9 image in an interactive mode and the entrypoint of bash.
 >Now check the python modules that are installed ( use pip list).
 >How many python packages/modules are installed?
 
-Answer:
+**Answer:**
 
 `3`
 
 ## Question 3. Count records
 
-Question:
+**Question:**
 
 >How many taxi trips were totally made on January 15?
 >
@@ -41,7 +41,7 @@ Question:
 >
 >Remember that `lpep_pickup_datetime` and `lpep_dropoff_datetime` columns are in the format timestamp (date and hour+min+sec) and not in date.
 
-Code:
+**Solution:**
 
 ```postgres-sql
 select 
@@ -53,18 +53,18 @@ where
     and lpep_dropoff_datetime::date = '2019-01-15';
 ```
 
-Answer:
+**Answer:**
 
 `20530`
 
 ## Question 4. Largest trip for each day
 
-Question:
+**Question:**
 
 >Which was the day with the largest trip distance
 >Use the pick up time for your calculations.
 
-Code:
+**Solution:**
 
 ```postgres-sql
 select 
@@ -78,17 +78,17 @@ limit
     1;
 ```
 
-Answer:
+**Answer:**
 
 `2019-01-15`
 
 ## Question 5. The number of passengers
 
-Question:
+**Question:**
 
 >In 2019-01-01 how many trips had 2 and 3 passengers?
 
-Code:
+**Solution:**
 
 ```postgres-sql
 select 
@@ -103,20 +103,20 @@ group by
     passenger_count;
 ```
 
-Answer:
+**Answer:**
 
 `2: 1282 ; 3: 254`
 
 ## Question 6. Largest tip
 
-Question:
+**Question:**
 
 >For the passengers picked up in the Astoria Zone which was the drop off zone that had the largest tip?
 >We want the name of the zone, not the id.
 >
 >Note: it's not a typo, it's `tip` , not `trip`
 
-Code:
+**Solution:**
 
 ```postgres-sql
 select 
@@ -133,6 +133,6 @@ limit
     1;
 ```
 
-Answer:
+**Answer:**
 
 `Long Island City/Queens Plaza`

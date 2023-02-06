@@ -25,9 +25,9 @@ def extract_from_gcs(year: int, month: int, color: str) -> Path:
     return Path(gcs_path)
 
 
-@task()
-def read_local(path: str) -> pd.DataFrame:
-    """Read local parquet file."""
+@task(log_prints=True)
+def read_parquet(path: Path) -> pd.DataFrame:
+    """Create DataFrame from parquet file."""
     df = pd.read_parquet(path)
 
     return df
@@ -51,17 +51,17 @@ def write_bq(df: pd.DataFrame, chunksize: int = 100_000) -> None:
 def etl_gcs_to_bq(year: int, month: int, color: str) -> int:
     """Main ETL flow to load data into Big Query."""
     path = extract_from_gcs(year, month, color)
-    df = read_local(path)
-    rows_count = len(df)
+    df = read_parquet(path)
     write_bq(df, CHUNKSIZE)
-
-    return rows_count
+    
+    return len(df)
 
 
 @flow(log_prints=True)
 def etl_parent_flow(
     year: int = 2021, months: list[int] = [1, 2], color: str = "yellow"
 ) -> None:
+    """Parent function for main ETL function."""
     proc_rows_count = 0
 
     for month in months:
@@ -71,8 +71,8 @@ def etl_parent_flow(
 
 
 if __name__ == "__main__":
-    year = 2019
-    months = [2, 3]
+    year = 2020
+    months = [1]
     color = "yellow"
 
     etl_parent_flow(year, months, color)

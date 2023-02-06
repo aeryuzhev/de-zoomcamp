@@ -80,7 +80,7 @@ prefect deployment build etl_web_to_gcs.py:etl_parent_flow \
 prefect deployment build etl_gcs_to_bq.py:etl_parent_flow \
   -n "etl_taxi_green_q_3" -a
 prefect deployment run etl-parent-flow/etl_taxi_green_q_1 \
-  --params '{"year": 2019, "months": [2, 3], "color": "yelllow"}'
+  --params '{"year": 2019, "months": [2, 3], "color": "yellow"}'
 ```
 
 ```bash

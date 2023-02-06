@@ -49,7 +49,7 @@ prefect deployment build etl_web_to_gcs.py:etl_parent_flow \
   -n "etl_taxi_green_q_2" --cron "0 5 1 * *" -a
 ```
 
-![alt text](https://github.com/aeryuzhev/de-zoomcamp/tree/master/homeworks/week_02/images/cron.png)
+![cron](/homeworks/week_02/images/cron.png)
 
 **Files:**
 [etl_web_to_gcs.py](https://github.com/aeryuzhev/de-zoomcamp/tree/master/homeworks/week_02/etl_web_to_gcs.py)
@@ -160,7 +160,7 @@ prefect deployment run etl-parent-flow/etl_taxi_green_q_5 --params '{"year": 201
 
 **Solution:**
 
-![alt text](https://github.com/aeryuzhev/de-zoomcamp/tree/master/homeworks/week_02/images/secret_block.png)
+![secret_block](/homeworks/week_02/images/secret_block.png)
 
 **Answer:**
 

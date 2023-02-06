@@ -19,8 +19,6 @@ prefect deployment run etl-parent-flow/etl_taxi_green_q_1 \
   --params '{"year": 2020, "months": [1], "color": "green"}'
 ```
 
-The last part of the output from Prefect Agent with the number of processed rows:
-
 ```bash
 21:54:53.032 | INFO    | Flow run 'mustard-fulmar' - Number of processed rows: 447770
 21:54:53.104 | INFO    | Flow run 'mustard-fulmar' - Finished in state Completed('All states completed.')
@@ -85,8 +83,6 @@ prefect deployment run etl-parent-flow/etl_taxi_green_q_1 \
   --params '{"year": 2019, "months": [2, 3], "color": "yelllow"}'
 ```
 
-The last part of the output from Prefect Agent with the number of processed rows:
-
 ```bash
 23:16:23.239 | INFO    | Flow run 'bizarre-dove' - Number of processed rows: 14851920
 23:16:23.285 | INFO    | Flow run 'bizarre-dove' - Finished in state Completed('All states completed.')
@@ -144,12 +140,21 @@ The last part of the output from Prefect Agent with the number of processed rows
 **Solution:**
 
 ```bash
-# Login on app.prefect.cloud and create an automation on app.prefect.cloud
 prefect cloud login
-
-prefect deployment build etl_web_to_gcs.py:etl_parent_flow -n "etl_taxi_green_q_5" -a
-prefect deployment run etl-parent-flow/etl_taxi_green_q_5 --params '{"year": 2019, "months": [4], "color": "green"}'
+prefect deployment build etl_web_to_gcs.py:etl_parent_flow \
+  -n "etl_taxi_green_q_5" -a
 ```
+
+![automation](/homeworks/week_02/images/automation.png)
+
+```bash
+prefect deployment run etl-parent-flow/etl_taxi_green_q_5 \
+  --params '{"year": 2019, "months": [4], "color": "green"}'
+```
+
+**Files:**
+
+[etl_web_to_gcs.py](https://github.com/aeryuzhev/de-zoomcamp/tree/master/homeworks/week_02/etl_web_to_gcs.py)
 
 **Answer:**
 

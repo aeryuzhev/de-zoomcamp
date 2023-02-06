@@ -6,7 +6,7 @@ from prefect_gcp.cloud_storage import GcsBucket
 
 COLOR = "green"
 YEAR = 2020
-MONTH = 11
+MONTH = 1
 GSC_BLOCK_NAME = "zoom-gsc"
 TAXI_URL = "https://github.com/DataTalksClub/nyc-tlc-data/releases/download"
 

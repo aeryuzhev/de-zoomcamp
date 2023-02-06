@@ -1,0 +1,43 @@
+###
+### A complete description of a Prefect Deployment for flow 'etl-web-to-gcs'
+###
+name: etl_taxi_green_gcs
+description: The main ETL function.
+version: b76ebd0f5f4c02ec6d60d14f9a7f0cf9
+# The work queue that will handle this deployment's runs
+work_queue_name: default
+work_pool_name: default-agent-pool
+tags: []
+parameters: {}
+schedule: null
+is_schedule_active: false
+infra_overrides: {}
+
+###
+### DO NOT EDIT BELOW THIS LINE
+###
+flow_name: etl-web-to-gcs
+manifest_path: null
+infrastructure:
+  type: process
+  env: {}
+  labels: {}
+  name: null
+  command: null
+  stream_output: true
+  working_dir: null
+  _block_document_id: 3d0649d0-e966-4dc0-85f8-a2871c2391fd
+  _block_document_name: anonymous-f2ef49e3-3aa6-44d8-aa8a-6aa90df67a16
+  _is_anonymous: true
+  block_type_slug: process
+  _block_type_slug: process
+storage: null
+path: /home/aerik/learning/de-zoomcamp/homeworks/week_02
+entrypoint: etl_web_to_gcs.py:etl_web_to_gcs
+parameter_openapi_schema:
+  title: Parameters
+  type: object
+  properties: {}
+  required: null
+  definitions: null
+timestamp: '2023-02-06T13:06:22.932916+00:00'

@@ -42,6 +42,7 @@ from
 ![row_count.png](images/rows_count.png)
 
 **Files:**
+
 [etl_web_to_gsc.py](etl_web_to_gsc.py)
 
 **Answer:**

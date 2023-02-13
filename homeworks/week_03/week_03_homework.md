@@ -28,7 +28,7 @@ create or replace external table
   `de-zoomcamp-375618.trips_data_all.ext_fhv_ny_taxi`
 options (
   format = 'CSV',
-  uris = ['gs://dtc_data_lake_de-zoomcamp-375618/data/fhv/fhv_tripdata_2019*.csv.gz']
+  uris = ['gs://dtc_data_lake_de-zoomcamp-375618/data/fhv/fhv_tripdata_2019-*.csv.gz']
 );
 
 create or replace table 
@@ -179,3 +179,36 @@ where
 **Answer:**
 
 `False`
+
+## (Not required) Question 8
+
+A better format to store these files may be parquet. Create a data pipeline to download the gzip files and convert them into parquet. Upload the files to your GCP Bucket and create an External and BQ Table.
+
+Note: Column types for all files used in an External Table must have the same datatype. While an External Table may be created and shown in the side panel in Big Query, this will need to be validated by running a count query on the External Table to check if any errors occur.
+
+**Solution:**
+
+```bash
+# Download and upload to GCS the fhv 2019 data (with converting csv.gz to parquet).
+python etl_web_to_gsc.py --to-parquet
+```
+
+```sql
+create or replace external table
+  `de-zoomcamp-375618.trips_data_all.ext_fhv_ny_taxi_pq`
+options (
+  format = 'parquet',
+  uris =['gs://dtc_data_lake_de-zoomcamp-375618/data/fhv/fhv_tripdata_2019-*.parquet']
+);
+
+create or replace table 
+  `de-zoomcamp-375618.trips_data_all.fhv_ny_taxi_pq` as
+select
+  *
+from
+  `de-zoomcamp-375618.trips_data_all.ext_fhv_ny_taxi_pq`;
+```
+
+**Files:**
+
+[etl_web_to_gsc.py](etl_web_to_gsc.py)

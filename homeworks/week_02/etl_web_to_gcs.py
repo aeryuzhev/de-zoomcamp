@@ -19,8 +19,8 @@ def fetch(dataset_url: str, color: str) -> pd.DataFrame:
         dropoff_dt_column = "lpep_dropoff_datetime"     
 
     dtypes = {
-        pickup_dt_column: "string",
-        dropoff_dt_column: "string",
+        pickup_dt_column: "object",
+        dropoff_dt_column: "object",
         "passenger_count": "float64",
         "trip_distance": "float64",
         "RatecodeID": "float64",

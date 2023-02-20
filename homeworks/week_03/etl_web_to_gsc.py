@@ -29,8 +29,8 @@ def convert_to_parquet(file_path: str) -> str:
 
     dtypes = {
         "dispatching_base_num": "string",
-        "pickup_datetime": "string",
-        "dropOff_datetime": "string",
+        "pickup_datetime": "object",
+        "dropOff_datetime": "object",
         "PUlocationID": "Int64",
         "DOlocationID": "Int64",
         "SR_Flag": "string",

@@ -1,6 +1,6 @@
 # Week 1 Homework
 
-In this homework we'll prepare the environment 
+In this homework we'll prepare the environment
 and practice with Docker and SQL
 
 ## Question 1. Knowing docker tags

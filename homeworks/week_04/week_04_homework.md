@@ -41,15 +41,15 @@ python etl_gcs_to_bq.py
 select
     count(*)
 from
-    `de-zoomcamp-375618.dbt_sandbox.fact_trips`
+    `de-zoomcamp-375618.dbt_production.fact_trips`
 where
     extract(year from pickup_datetime) in (2019, 2020);
 ```
 
 **Files:**
 
-[etl_web_to_gcs.py](etl_web_to_gcs.py)
-[etl_gcs_to_bq.py](etl_gcs_to_bq.py)
+* [etl_web_to_gcs.py](etl_web_to_gcs.py)
+* [etl_gcs_to_bq.py](etl_gcs_to_bq.py)
 
 **Answer:**
 
@@ -84,7 +84,7 @@ where
 select
     count(*)
 from
-    `de-zoomcamp-375618.dbt_sandbox.stg_fhv_tripdata`
+    `de-zoomcamp-375618.dbt_production.stg_fhv_tripdata`
 where
     extract(year from pickup_datetime) = 2019;
 ```
@@ -102,10 +102,20 @@ where
 >Similar to what we've done in fact_trips, keep only records with known pickup and dropoff locations entries for pickup and dropoff locations.
 >Run it via the CLI without limits (is_test_run: false) and filter records with pickup time in year 2019.
 
-* 12998722
-* 22998722
-* 32998722
-* 42998722
+**Solution:**
+
+```sql
+select
+    count(*)
+from
+    `de-zoomcamp-375618.dbt_production.fact_fhv_trips`
+where
+    extract(year from pickup_datetime) = 2019;
+```
+
+**Answer:**
+
+`22998722`
 
 ### Question 5
 

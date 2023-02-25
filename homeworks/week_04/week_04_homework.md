@@ -51,6 +51,9 @@ where
 * [etl_web_to_gcs.py](etl_web_to_gcs.py)
 * [etl_gcs_to_bq.py](etl_gcs_to_bq.py)
 
+**Links:**
+* [dbt repository](https://github.com/aeryuzhev/de-zoomcamp-dbt)
+
 **Answer:**
 
 `61648442`
@@ -124,7 +127,10 @@ where
 >**What is the month with the biggest amount of rides after building a tile for the fact_fhv_trips table?**
 >Create a dashboard with some tiles that you find interesting to explore the data. One tile should show the amount of trips per month, as done in the videos for fact_trips, based on the fact_fhv_trips table.
 
-* March
-* April
-* January
-* December
+**Solution:**
+
+![trips_per_month.png](images/trips_per_month.png)
+
+**Answer:**
+
+`January`

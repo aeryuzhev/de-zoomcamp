@@ -52,6 +52,7 @@ where
 * [etl_gcs_to_bq.py](etl_gcs_to_bq.py)
 
 **Links:**
+
 * [dbt repository](https://github.com/aeryuzhev/de-zoomcamp-dbt)
 
 **Answer:**

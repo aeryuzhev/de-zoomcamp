@@ -75,6 +75,10 @@ total 284M
 
 ![Alt text](images/sql_query_1.png)
 
+Or
+
+![Alt text](images/sql_df_1.png)
+
 **Files:**
 
 - [fhvhv_pyspark.ipynb](fhvhv_pyspark.ipynb)
@@ -95,6 +99,10 @@ total 284M
 **Solution:**
 
 ![Alt text](images/sql_query_2.png)
+
+Or
+
+![Alt text](images/sql_df_2.png)
 
 **Files:**
 
@@ -130,6 +138,10 @@ total 284M
 **Solution:**
 
 ![Alt text](images/sql_query_3.png)
+
+Or
+
+![Alt text](images/sql_df_3.png)
 
 **Files:**
 

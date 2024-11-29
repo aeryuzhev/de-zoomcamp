@@ -1,4 +1,4 @@
-# Data Engineering Zoomcamp Project | datatalks.club
+# Data Engineering Zoomcamp | datatalks.club
 
 Links:
 - **[Data Engineering Zoomcamp Course](https://github.com/DataTalksClub/data-engineering-zoomcamp)**
